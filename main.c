@@ -13,7 +13,7 @@ int main()
     int testNumber = 0;
     {
         /* Check return value of ringBufferPut */
-        RING_BUFFER_CREATE(buf, 5);
+        RING_BUFFER_DECLARE(buf, 5);
         bool ringBufferPutRetOk;
 
         for (int i = 100; i < 100 + buf.size; i++)
@@ -34,7 +34,7 @@ int main()
 
     {
         /* Check if values put into buffer are present there */
-        RING_BUFFER_CREATE(buf, 5);
+        RING_BUFFER_DECLARE(buf, 5);
         bool ringBufferPutOk;
 
         for (int i = 0; i < buf.size; i++)
@@ -54,7 +54,7 @@ int main()
 
     {
         /* Check if value cannot be put into buffer when full */
-        RING_BUFFER_CREATE(buf, 5);
+        RING_BUFFER_DECLARE(buf, 5);
         for (int i=0; i<buf.size; i++) ringBufferPut(&buf, (uint32_t)i);
 
         bool result = ringBufferPut(&buf, 0) < 0;
@@ -65,7 +65,7 @@ int main()
         /** Check if buffer content remains unchanged after attempt to put the 
          *  new value to full buffer.
          */
-        RING_BUFFER_CREATE(buf, 25);
+        RING_BUFFER_DECLARE(buf, 25);
         bool contentOk;
 
         for (int i=0; i<buf.size; i++) ringBufferPut(&buf, (uint32_t)i);
@@ -85,7 +85,7 @@ int main()
 
     {
         /* Check return value of ringBufferGet when buf is empty */
-        RING_BUFFER_CREATE(buf, 2);
+        RING_BUFFER_DECLARE(buf, 2);
         uint32_t _;
         LOG_TEST_RESULT(++testNumber, "ringBufferGet when empty", 
                         ringBufferGet(&buf, &_) < 0);
@@ -93,7 +93,7 @@ int main()
 
     {
         /* Check return value of ringBufferGet when buf is full */
-        RING_BUFFER_CREATE(buf, 7);
+        RING_BUFFER_DECLARE(buf, 7);
         for (int i=0; i<buf.size; i++) ringBufferPut(&buf, (uint32_t)i);
 
         bool getOk;
@@ -110,7 +110,7 @@ int main()
 
     {
         /* Check values gotten by ringBufferGet */
-        RING_BUFFER_CREATE(buf, 7);
+        RING_BUFFER_DECLARE(buf, 7);
 
         for (int i=0; i<buf.size; i++) ringBufferPut(&buf, (uint32_t)i);
 
@@ -130,7 +130,7 @@ int main()
 
     {
         /* Check getting values after one round */
-        RING_BUFFER_CREATE(buf, 8);
+        RING_BUFFER_DECLARE(buf, 8);
 
         /* [0, 1, 2, 3, 4, 5, 6, 7] */
         for (int i=0; i<8; i++) ringBufferPut(&buf, i);

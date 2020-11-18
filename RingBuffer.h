@@ -10,9 +10,9 @@ typedef struct RingBuffer {
 } RingBuffer_t;
 
 /** Creates ring buffer instance **/ 
-#define RING_BUFFER_CREATE(name, size) \
-    static volatile unsigned _static_buf##name[size]; \
-    static RingBuffer_t name = { \
+#define RING_BUFFER_DECLARE(name, size) \
+    volatile unsigned _static_buf##name[size]; \
+    RingBuffer_t name = { \
          (uint32_t*)_static_buf##name, \
          (uint32_t*)_static_buf##name, \
          0, \
