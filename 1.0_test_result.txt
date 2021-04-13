@@ -1,0 +1,15 @@
+
+
+Ringbuffer ver: 1.0
+Git revision: 2b75f3c646e0aff8f687b95e4bd44ec15bd5edab
+
+[Id] Test                                          Results
+
+[ 1] RingBufferPut                                 passed
+[ 2] Values in ring buffer                         passed
+[ 3] Check return value when full                  passed
+[ 4] Check content after put fail                  passed
+[ 5] ringBufferGet when empty                      passed
+[ 6] ringBufferGet ret whole buffer                passed
+[ 7] ringBufferGet compare values                  passed
+[ 8] Get values after circle                       passed
