@@ -1,6 +1,8 @@
-#include "RingBuffer.h"
 #include <stdio.h>
 #include <stdbool.h>
+
+#include "RingBuffer.h"
+
 
 #define LOG_TEST_RESULT(index, test_name, result) \
     printf("[%2d] %-45s %s\n", index, test_name, result ? "passed" : "failed")
@@ -8,7 +10,12 @@
 
 int main()
 {
-    printf("[Id] %-45s %s\n\n", "Test Name", "Results");
+    printf(
+#ifdef RINGBUFFER_VERSION
+        "Ringbuffer ver: " RINGBUFFER_VERSION "\n\n"
+#endif
+        "[Id] %-45s %s\n\n",
+        "Test", "Results");
 
     int testNumber = 0;
     {
@@ -62,7 +69,7 @@ int main()
     }
 
     {
-        /** Check if buffer content remains unchanged after attempt to put the 
+        /** Check if buffer content remains unchanged after attempt to put the
          *  new value to full buffer.
          */
         RING_BUFFER_DECLARE(buf, 25);
@@ -87,7 +94,7 @@ int main()
         /* Check return value of ringBufferGet when buf is empty */
         RING_BUFFER_DECLARE(buf, 2);
         uint32_t _;
-        LOG_TEST_RESULT(++testNumber, "ringBufferGet when empty", 
+        LOG_TEST_RESULT(++testNumber, "ringBufferGet when empty",
                         ringBufferGet(&buf, &_) < 0);
     }
 
@@ -118,7 +125,7 @@ int main()
         for (int i=0; i<buf.size; i++) {
             uint32_t gotVal;
             (void)ringBufferGet(&buf, &gotVal);
-            
+
             valuesMatch = gotVal == i;
             if (!valuesMatch) {
                 break;
