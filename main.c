@@ -1,8 +1,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-#include "RingBuffer.h"
-
+#include "RingBuffer.h" 
 
 #define LOG_TEST_RESULT(index, test_name, result) \
     printf("[%2d] %-45s %s\n", index, test_name, result ? "passed" : "failed")
@@ -11,8 +10,9 @@
 int main()
 {
     printf(
-#ifdef RINGBUFFER_VERSION
-        "Ringbuffer ver: " RINGBUFFER_VERSION "\n\n"
+#if defined(RINGBUFFER_VERSION) && defined(RINGBUFFER_GIT_REVISION)
+        "\n\nRingbuffer ver: " RINGBUFFER_VERSION
+        "\nGit revision: " RINGBUFFER_GIT_REVISION "\n\n"
 #endif
         "[Id] %-45s %s\n\n",
         "Test", "Results");

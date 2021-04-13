@@ -1,15 +1,22 @@
-# This is Makefile for test execution
+# Makefile for test building, execution and saving results
+
+RINGBUFFER_VERSION="1.0"
+RINGBUFFER_GIT_REVISION := $(shell git log --pretty=format:"%H" -n1)
+
+
+C_SOURCES=*.c
+C_DEFINES=\
+	-DRINGBUFFER_VERSION="\"$(RINGBUFFER_VERSION)\"" \
+	-DRINGBUFFER_GIT_REVISION="\"$(RINGBUFFER_GIT_REVISION)\""
 
 BINARY_NAME=test
-
-SOURCES=*.c
-DEFINES=RINGBUFFER_VERSION="\"1.0\""
+TEST_RESULT_FILENAME=$(RINGBUFFER_VERSION)"_test_result.txt"
 
 all:
-	gcc $(SOURCES) -o $(BINARY_NAME) -D$(DEFINES)
+	gcc $(C_SOURCES) -o $(BINARY_NAME) $(C_DEFINES)
 	@echo "Tests successfully compiled."
 	@echo "Executing \"$(BINARY_NAME)\"\n\n"
-	./$(BINARY_NAME)
+	./$(BINARY_NAME) | tee $(TEST_RESULT_FILENAME)
 
 clean:
-	rm $(BINARY_NAME)
+	rm $(BINARY_NAME) $(TEST_RESULT_FILENAME)
