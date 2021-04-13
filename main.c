@@ -164,5 +164,11 @@ int main()
 
     }
 
+    {
+        /* Declare any ring_buffer */
+
+        RING_BUFFER_DECLARE_ANY(uint8_t, any, 8);
+    }
+
     return 0;
 }

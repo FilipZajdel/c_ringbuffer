@@ -18,6 +18,21 @@ typedef struct RingBuffer {
          0, \
          size }
 
+/** Creates ring buffer for holding a size of type values */
+#define RING_BUFFER_DECLARE_ANY(type, name, buf_size) \
+    type _static_buf##name[buf_size]; \
+    struct RingBuffer_##type##name { \
+        type *mem; \
+        type *current; \
+        uint32_t usage; \
+        const uint32_t size; \
+    }; \
+    struct RingBuffer_##type##name name = { \
+        .mem = _static_buf##name, \
+        .current = _static_buf##name, \
+        .usage = 0, \
+        .size = buf_size }
+
 /** Puts new element into ring buffer
  *
  * Args:
