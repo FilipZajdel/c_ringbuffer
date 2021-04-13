@@ -3,7 +3,6 @@
 #define RET_ERR -1
 #define RET_OK  0
 
-static void moveCurrentForward(RingBuffer_t *buf);
 static uint32_t *getOldestElement(RingBuffer_t *buf);
 
 int ringBufferPut(RingBuffer_t *ringBuffer, uint32_t value)
@@ -18,7 +17,8 @@ int ringBufferPut(RingBuffer_t *ringBuffer, uint32_t value)
 
     *ringBuffer->current = value;
     ringBuffer->usage++;
-    moveCurrentForward(ringBuffer);
+    ringBuffer->current = (ringBuffer->current < &ringBuffer->mem[ringBuffer->size-1]) ?
+                           ringBuffer->current+1 : ringBuffer->mem;
 
     return RET_OK;
 }
@@ -39,14 +39,7 @@ int ringBufferGet(RingBuffer_t *ringBuffer, uint32_t * const value)
     return RET_OK;
 }
 
-static void moveCurrentForward(RingBuffer_t *buf)
-{
-    if (buf->current < &buf->mem[buf->size-1]) {
-        buf->current++;
-    } else {
-        buf->current = buf->mem;
-    }
-}
+
 
 static uint32_t *getOldestElement(RingBuffer_t *buf)
 {
@@ -57,6 +50,6 @@ static uint32_t *getOldestElement(RingBuffer_t *buf)
     }
 
     uint32_t distanceFromBack = buf->usage - distanceToBegin;
-    
-    return buf->mem + (buf->size-1) - distanceFromBack;    
+
+    return buf->mem + (buf->size-1) - distanceFromBack;
 }
